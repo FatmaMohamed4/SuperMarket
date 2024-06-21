@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
 import {promisify} from 'util'
 import User from '../models/userModel.js';
-import AppError from "../middlewares/AppError.js"
 import catchError from '../middlewares/catchError.js';
+import AppError from '../middlewares/AppError.js';
 dotenv.config({path:'./config.env'})
 dotenv.config();
 const SECRET_Key = process.env.SECRET_Key; 
