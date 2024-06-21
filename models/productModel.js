@@ -7,10 +7,11 @@ const productSchema = new mongoose.Schema (
         type : String ,
         required : [true , "Product Name is required"]   
       } , 
+
       slug: {
       type: String,
       unique: true,
-    },
+      },
 
       price: {
         type: Number,
@@ -40,10 +41,17 @@ const productSchema = new mongoose.Schema (
       
       rate: {
         type: Number,
-        enum: [ 1, 1.5 , 2 ,2.5 , 3 , 3.5 , 4, 4.5, 5 ], 
-        required: [true, "Rate is required"]
+        enum: [0, 1, 1.5 , 2 ,2.5 , 3 , 3.5 , 4, 4.5, 5 ], 
+        // required: [true, "Rate is required"],
+        default : 0
+      }, 
+
+      categoryName :{
+        type: String , 
+        ref :"Category" ,
+        required : true
       }
-      
+       
     },
     { timestamps: true }
 );

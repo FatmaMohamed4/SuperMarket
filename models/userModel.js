@@ -8,18 +8,19 @@ const userSchema = new mongoose.Schema(
     {
         userName: {
             type: String,
-            required: [true, "First Name is required"],
+            required: [true, "Username is required"],
         },
 
         email: {
             type: String,
-            required: [true, "Last Name is required"],
+            required: [true, "Email is required"],
             validate: [validator.isEmail, "This is not a valid Email"],
         } ,
 
         password :{
             type: String,
             required: [true, "password is required"],
+            minlength: [6, "Password must be at least 6 characters"]
         } ,
 
         // confirmPassword :{

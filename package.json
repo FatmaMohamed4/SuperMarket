@@ -17,7 +17,11 @@
   },
   "scripts": {
     "start": "node server.js"
+  }, 
+  "engines": {
+    "node" :"18.16.1"
   },
+  
   "name": "supermaket_app",
   "version": "1.0.0",
   "description": "E-commerce App",
