@@ -11,6 +11,6 @@ productRoute.delete('/:id', deleteProduct)
 
 
 
-productRoute.get('/all',protect,getProducts)
+productRoute.get('/all',getProducts)
 productRoute.get('/',protect,getOneProduct)
 export default productRoute
