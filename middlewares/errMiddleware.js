@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 
@@ -40,4 +41,38 @@ const globalError = (err, req, res, next) => {
   }
 };
 
+=======
+
+
+const globalError = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
+  if (process.env.NODE_ENV === 'development') {
+    sendErrorForDev(err, res);
+  } else if(process.env.NODE_ENV === 'production') {
+    sendErrorForProd(err, res);   
+  }
+};
+
+
+
+//Error development ==> details 
+const sendErrorForDev = (err, res) =>
+  res.status(err.statusCode).json({
+    status: err.status,
+    error: err,
+    message: err.message,
+    stack: err.stack,  //location of error 
+  });
+
+
+//Error production //summary 
+const sendErrorForProd = (err, res) =>
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message,
+  });
+
+
+>>>>>>> 50d2c00 (err handling)
 export default globalError

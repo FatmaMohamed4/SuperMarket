@@ -17,7 +17,8 @@
     "validator": "^13.12.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start:dev": "nodemon server.js",
+    "start:prod": "cross-env NODE_ENV=production nodemon server.js"
   },
   "engines": {
     "node": "18.16.1"
@@ -27,5 +28,8 @@
   "description": "E-commerce App",
   "main": "app.js",
   "author": "Fatma Mohamed",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
 }

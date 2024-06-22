@@ -57,7 +57,7 @@ const protect = catchError(async (req, res, next) => {
         if(req.headers.authorization && req.headers.authorization.startsWith("Bearer") ){
             token=req.headers.authorization.split(" ")[1]
         }
-        console.log(token)
+        // console.log(token)
         if(!token){
             return next(new AppError('Please Login and Try again',401))
         }
@@ -65,7 +65,7 @@ const protect = catchError(async (req, res, next) => {
         
         //verfiy token with secret key
         const decodedToken = await promisify (jwt.verify)(token,SECRET_Key) //return id
-        console.log(decodedToken)
+        // console.log(decodedToken)
         //check user (of token) is exist
         const currentUser =await User.findById(decodedToken.userId)
         
