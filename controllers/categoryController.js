@@ -95,7 +95,7 @@ export const deleteCategory = catchError(async (req,res)=>{
 
 
 
-    export const addProductsToCategory = catchError(async (req, res, next) => {
+export const addProductsToCategory = catchError(async (req, res, next) => {
         const { categoryId, productIds } = req.body;
     
         try {
@@ -132,7 +132,7 @@ export const deleteCategory = catchError(async (req,res)=>{
 
     
 
-    export const getProductsAndCategory = catchError(async (req, res, next) => {
+export const getProductsAndCategory = catchError(async (req, res, next) => {
         try {
             const categoryName = req.body.categoryName
             const products = await Product.find({categoryName}).select( '-_id -__v -slug -createdAt -updatedAt -stock -quantity -categoryName');
@@ -154,35 +154,3 @@ export const deleteCategory = catchError(async (req,res)=>{
         }
     });
 
-
-    // export const filterCategory = catchError(async (req, res, next) => {
-    //     const { categoryName } = req.body;
-    
-    //     try {
-    //         // Find the category by categoryName or slug and populate the products field with product details
-    //         const category = await Category.findOne({
-    //             $or: [
-    //                 { categoryName },
-    //                 { slug: categoryName }
-    //             ]
-    //         })
-    //         .populate({
-    //             path: 'products',
-    //             select: '_id name price description', // Select fields you want to include from each product
-    //             // Optionally, you can add more population options like 'model' or 'select' here
-    //         })
-    //         .select('-_id -__v -slug -createdAt -updatedAt'); // Exclude unnecessary fields from category
-    
-    //         if (!category) {
-    //             return next(new AppError('Category not found', 404));
-    //         }
-    
-    //         res.status(200).json({
-    //             status: 'success',
-    //             category // This will now include products with details
-    //         });
-    //     } catch (err) {
-    //         // Handle other potential errors
-    //         return next(err);
-    //     }
-    // });

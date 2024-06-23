@@ -64,6 +64,6 @@ productSchema.pre("save", function (next) {
   this.slug = slugify(this.productName, { lower: true });
   next();
 });
-const Product = model('product',productSchema);
+const Product = mongoose.model('Product', productSchema);
 
-export default Product
+export default Product;

@@ -51,7 +51,7 @@ export const getOneProduct = catchError(async (req, res, next) => {
 
 // Update a product
 export const updateProduct = catchError(async (req, res, next) => {
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body.quantity, {
         new: true,
         runValidators: true
     }).select('-_id -slug -__v');
