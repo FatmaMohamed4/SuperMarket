@@ -16,9 +16,9 @@ app.use('/user',userRoute)
 app.use('/order',orderRoute)
 app.use('/checkout',checkRoute)
 
-// app.use('/',(req,res)=>{
-//   res.send("Hello Supermarket App")
-// })
+app.use('/',(req,res)=>{
+  res.send("Hello Supermarket App")
+})
 
 app.use(globalError)
 
