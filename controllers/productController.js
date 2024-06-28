@@ -51,7 +51,7 @@ export const getOneProduct = catchError(async (req, res, next) => {
 
 // Update a product
 export const updateProduct = catchError(async (req, res, next) => {
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body.quantity, {
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
     }).select('-_id -slug -__v');
@@ -79,4 +79,18 @@ export const deleteProduct = catchError(async (req, res, next) => {
     });
 });
 
+
+export const bestSelling = catchError(async (req, res, next) => {
+    const products = await Product.find({ bestSelling: true });
+  
+    if (!products || products.length === 0) {
+      return next(new AppError('No best selling products found', 404));
+    }
+  
+    res.status(200).json({
+      status: true,
+      message: 'Best selling products found',
+      products,
+    });
+  });
 

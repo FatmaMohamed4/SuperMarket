@@ -8,6 +8,12 @@ const productSchema = new mongoose.Schema (
         required : [true , "Product Name is required"]   
       } , 
 
+      bestSelling :{
+        type :String ,
+        default:false ,
+        requiured :true
+      } ,
+      
       slug: {
       type: String,
       unique: true,
@@ -33,6 +39,9 @@ const productSchema = new mongoose.Schema (
         default : 1
       } ,
 
+      photo :{
+        type : String
+      } ,
 
       productDetail :{
         type : String ,
@@ -50,7 +59,9 @@ const productSchema = new mongoose.Schema (
         type: String , 
         ref :"Category" ,
         required : true
-      }
+      } ,
+      
+    
        
     },
     { timestamps: true }
