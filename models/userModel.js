@@ -60,17 +60,12 @@ userSchema.methods.correctPassword = async function (candidatePassword, userPass
     return await bcryptjs.compare(candidatePassword, userPassword);
   };
 
-userSchema.generateOtp = async function () {
-    // const OTP_LENGTH=4
-    const OTP = generateOTP.generate(process.env.OTP_LENGTH || OTP_LENGTH, {
-      upperCaseAlphabets: true,
-      specialChars: false,
-    });
-    this.otp = crypto.createHash('sha256').update(OTP).digest('hex');
-    this.otpExpires = Date.now() + 10 * 60 * 1000; // valid 10 min
-    return OTP;
-  };
-
+  userSchema.methods.generateOTP = function () {
+    const otp = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a 6-digit OTP
+    this.otp = otp;
+    this.otpExpires = Date.now() + 10 * 60 * 1000; // OTP expires in 10 minutes
+    return otp;
+};
 const User = mongoose.model('User', userSchema);
 
 export default User;

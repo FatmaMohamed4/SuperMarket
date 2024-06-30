@@ -2,8 +2,11 @@ import User from "../models/userModel.js"
 // import asyncHandler from 'express-async-handler';
 import Jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import crypto from'crypto'
 import catchError from "../middlewares/catchError.js";
 import AppError from "../middlewares/AppError.js";
+import { sendToEmail } from "../utils/Email.js";
+// import sendToEmail from "../utils/Email.js";
 dotenv.config({path:'./config.env'})
 dotenv.config();
 const SECRET_Key = process.env.SECRET_Key; 
@@ -55,3 +58,61 @@ const SECRET_Key = process.env.SECRET_Key;
 
   })
 
+
+
+  export const forgotPassword = catchError(async (req, res,next) => {   
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        return next(new AppError('Invalid email',401))
+    }
+
+    const otp = user.generateOTP();
+    await user.save({ validateBeforeSave: false });
+    sendToEmail(req.body.email, otp);
+
+    res.status(200).json({
+        status: true,
+        message: "OTP generated and sent to your email"
+    }); 
+})
+const SECRET_KEY = process.env.SECRET_KEY;
+
+export const verifyOTP = catchError(async (req, res, next) => {
+  const otp = req.body.otp;
+  const user = await User.findOne({
+      otp: otp,
+      otpExpires: { $gt: Date.now() }
+  });
+
+  if (!user) {
+      return next(new AppError('Invalid or expired OTP', 400));
+  }
+
+  const token = Jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: "90d" });
+
+  res.status(200).json({
+      status: true,
+      message: "Confirmed OTP",
+      token
+  });
+});
+
+export const resetPassword = async (req, res) => {
+
+  try {
+    const user =req.user;
+    user.password=req.body.password
+   
+    user.otp=undefined ; 
+    user.otpExpires=undefined ;
+    user.save({validateBeforeSave:true})
+    res.status(200).json({
+      status:true,
+      message : "update password correctly"
+      // user
+    })
+  } catch (error) {
+      console.error('Error in resetPassword:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+};
