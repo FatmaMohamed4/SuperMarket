@@ -19,7 +19,7 @@ if (!address || !payment) {
     return next(new AppError('Address and payment details are required', 400));
 }
 
-const checkOut = await CheckOut.create({ address, payment, order: id ,userId :user});
+const checkOut = await CheckOut.create({ address, payment, order: id ,user :user});
 const totalCost =await Order.findOne(id).select('-userId -products -totalAmount -_id -createdAt -updatedAt -__v')
 checkOut.TotalCost = order.totalCost
 
@@ -72,3 +72,18 @@ export const editCheckOut = catchError(async (req, res, next) => {
         checkOut
     });
 });
+
+export const getAdresses =catchError(async (req,res,  next)=>{
+   const user = req.user._id
+   const address = await CheckOut.find({user :user}, '-payment -user -_id -__v')
+
+   if (!address){
+    return next (new AppError('address not found',400))
+}
+   res.status(200).json ({
+    status : true  ,
+    address ,
+    
+})
+
+})
