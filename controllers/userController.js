@@ -15,10 +15,10 @@ const SECRET_Key = process.env.SECRET_Key;
       const email = req.body.email
         const user=await User.findOne({email})
         if(!user){
-           const newUser = await User.create(req.body)
+            await User.create(req.body)
             res.status(201).json({
                 status : true , 
-                message :"Register correctly" , newUser : newUser
+                message :"Register correctly"
             })
         } else{
           return next(new AppError('Invalid Email or password', 400) )
@@ -45,7 +45,7 @@ const SECRET_Key = process.env.SECRET_Key;
 
   export const userInfo =catchError(async(req,res,next)=>{
     const id = req.body.id 
-    const user = await User.findById(id)
+    const user = await User.findById(id).select ('-password -otp -_id -__v -otpExpires')
 
     if (!user) {
       return next(new AppError('User not found ', 404) )
