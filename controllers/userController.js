@@ -15,7 +15,7 @@ const SECRET_Key = process.env.SECRET_Key;
       const email = req.body.email
         const user=await User.findOne({email})
         if(!user){
-           consr newUser = await User.create(req.body)
+           const newUser = await User.create(req.body)
             res.status(201).json({
                 status : true , 
                 message :"Register correctly" , newUser : newUser
