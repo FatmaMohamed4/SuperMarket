@@ -45,7 +45,7 @@ const SECRET_Key = process.env.SECRET_Key;
 
   export const userInfo =catchError(async(req,res,next)=>{
     const id = req.body.id 
-    const user = await User.findById(id).select ('-password -otp -_id -__v -otpExpires')
+    const user = await User.findById(id)
 
     if (!user) {
       return next(new AppError('User not found ', 404) )
