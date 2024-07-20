@@ -15,11 +15,10 @@ const SECRET_Key = process.env.SECRET_Key;
       const email = req.body.email
         const user=await User.findOne({email})
         if(!user){
-         const newUser =  await User.create(req.body)
+            await User.create(req.body)
             res.status(201).json({
                 status : true , 
-                message :"Register correctly" ,
-              newUser
+                message :"Register correctly"
             })
         } else{
           return next(new AppError('Invalid Email or password', 400) )

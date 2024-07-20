@@ -12,7 +12,6 @@ const globalError = (err, req, res, next) => {
 
 //Error development
 const sendErrorForDev = (err, res) =>
-  
   res.status(err.statusCode).json({
     status: err.status,
     error: err,

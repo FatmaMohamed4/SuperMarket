@@ -48,7 +48,7 @@ export const getCategory =catchError(async(req,res)=>{
                 { categoryName: categoryName },
                 { slug: categoryName }
             ]
-        }).select('-products -__v -slug -createdAt -updatedAt');
+        }).select('-_id -__v -slug -createdAt -updatedAt');
 
         if(!category){
             res.status(404).json({
