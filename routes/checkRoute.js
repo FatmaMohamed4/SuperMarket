@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 import express from 'express'
 import protect from '../utils/protect.js';
@@ -8,4 +9,16 @@ checkRoute.get('/:orderId', protect,getCheckOut)
 checkRoute.patch('/:orderId' , protect, editCheckOut)
 
 checkRoute.get('/address/', protect ,getAdresses)
+=======
+
+import express from 'express'
+import protect from '../utils/protect.js';
+import { editCheckOut, getAdresses, getCheckOut } from '../controllers/checkController.js';
+const checkRoute = express.Router();
+
+checkRoute.get('/:orderId', protect,getCheckOut)
+checkRoute.patch('/:orderId' , protect, editCheckOut)
+
+checkRoute.get('/address/', protect ,getAdresses)
+>>>>>>> 0ef84618eafe6293b6acaef03b2b7f60db094ded
 export default checkRoute

@@ -60,7 +60,13 @@ const productSchema = new mongoose.Schema (
         ref :"Category" ,
         required : true
       } ,
+<<<<<<< HEAD
           
+=======
+      
+    
+       
+>>>>>>> 0ef84618eafe6293b6acaef03b2b7f60db094ded
     },
     { timestamps: true }
 );
