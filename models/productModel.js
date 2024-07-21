@@ -5,7 +5,7 @@ const productSchema = new mongoose.Schema (
     {
       productName :{
         type : String ,
-        required : [true , "Product Name is required"]   
+        // required : [true , "Product Name is required"]   
       } , 
 
       bestSelling :{
@@ -60,9 +60,7 @@ const productSchema = new mongoose.Schema (
         ref :"Category" ,
         required : true
       } ,
-      
-    
-       
+          
     },
     { timestamps: true }
 );

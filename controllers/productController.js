@@ -16,7 +16,7 @@ export const addProduct = catchError(async (req, res, next) => {
 
 // Get all products
 export const getProducts = catchError(async (req, res, next) => {
-    const products = await Product.find().select('-_id -slug -__v');
+    const products = await Product.find()
     if (!products.length) {
         return next(new AppError('Products not found', 404));
     }
@@ -26,20 +26,38 @@ export const getProducts = catchError(async (req, res, next) => {
     });
 });
 
-//Get one product by name or id
+//Get one product by name
+// export const getOneProduct = catchError(async (req, res, next) => {
+//     const { name } = req.body;
+//     let product;
+
+//     if (name) {
+//         product = await Product.find(
+//             { $or: [{ productName: name }, { slug: name }] }
+//         ).select('-__v -slug');
+//     }
+
+//     if (!product) {
+//         return next(new AppError('Product not found', 404));
+//     }
+
+//     res.status(200).json({
+//         status: 'success',
+//         product: product
+//     });
+// });
 export const getOneProduct = catchError(async (req, res, next) => {
-    const { name, id } = req.body;
+    const { name } = req.body;
     let product;
 
     if (name) {
-        product = await Product.findOne(
-            { $or: [{ productName: name }, { slug: name }] }
+        const regex = new RegExp(name, 'i'); // 'i' makes it case-insensitive
+        product = await Product.find(
+            { $or: [{ productName: { $regex: regex } }, { slug: { $regex: regex } }] }
         ).select('-__v -slug');
-    } else if (id) {
-        product = await Product.findById(id).select('-__v -slug');
     }
 
-    if (!product) {
+    if (!product || product.length === 0) {
         return next(new AppError('Product not found', 404));
     }
 

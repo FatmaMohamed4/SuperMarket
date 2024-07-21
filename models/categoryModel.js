@@ -12,7 +12,8 @@ const categorySchema = new mongoose.Schema(
         slug: {
             type: String,
             unique: true
-        }
+        } ,
+        photo : String
     },
     { timestamps: true }
 );

@@ -5,6 +5,7 @@ import {v2 as cloudinary} from 'cloudinary';
 import Photo from "../models/photoModel.js";
 import path from 'path'; 
 import Product from "../models/productModel.js";
+import Category from "../models/categoryModel.js";
 cloudinary.config({ 
     cloud_name: 'djzbdq0km', 
     api_key: '348278345164438', 
@@ -87,3 +88,30 @@ cloudinary.config({
 //       });
 //     });
   
+
+export const UPLOADCategory = catchError(async (req, res, next) => {
+  upload.single('photo')(req, res, async function (err) {
+    try {
+      if (err) {
+        console.error(err);
+        return next(new AppError('Error uploading file', 500));
+      }
+
+      if (!req.file) {
+        return next(new AppError('No file uploaded', 404));
+      }
+
+      const result = await cloudinary.uploader.upload(req.file.path);
+      const photoUrl = result.secure_url;
+      const categoryId = req.params.id;
+
+      await Photo.create({ category: categoryId, photo: photoUrl });
+      const updatedProduct = await Category.findByIdAndUpdate(categoryId, { photo: photoUrl }, { new: true });
+
+      res.status(200).json({ message: 'Success', photoUrl, updatedProduct });
+    } catch (uploadError) {
+      console.error(uploadError);
+      return next(new AppError('Error processing request', 500));
+    }
+  });
+});
