@@ -48,7 +48,7 @@ export const getCategory =catchError(async(req,res)=>{
                 { categoryName: categoryName },
                 { slug: categoryName }
             ]
-        }).select('-_id -__v -slug -createdAt -updatedAt');
+        }).select('-_id -__v -slug -createdAt -updatedAt -products');
 
         if(!category){
             res.status(404).json({
@@ -135,7 +135,7 @@ export const addProductsToCategory = catchError(async (req, res, next) => {
 export const getProductsAndCategory = catchError(async (req, res, next) => {
         try {
             const categoryName = req.body.categoryName
-            const products = await Product.find({categoryName}).select( '-_id -__v -slug -createdAt -updatedAt -stock -quantity -categoryName');
+            const products = await Product.find({categoryName}).select( '-__v -slug -createdAt -updatedAt -stock -categoryName');
     
             if (!products) {
                 return res.status(404).json({
